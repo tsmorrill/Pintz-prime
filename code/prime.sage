@@ -8,11 +8,22 @@ var('t')
 def character_sum(q0, q1, parity):      # Lapkova 2018
     """Calculate upper bound for sum of Dirichlet characters of modulus q0 <= q <= q1."""
 
+    even_table = [1.83, 1.74, 1.68, 1.63, 1.59, 1.55, 1.52, 1.49, 1.47, 1.45,
+                  1.43, 1.41, 1.39, 1.38, 1.12, 1.02]
+    odd_table = [1.79, 1.70, 1.64, 1.60, 1.56, 1.53, 1.50, 1.47, 1.45, 1.43,
+                 1.41, 1.39, 1.38, 1.36, 1.10, 1.00]
+
+    index = int(log(q0, 10) - 7)
+
     if parity == 'even':
-        number = (2/pi**2 + 0.9467/log(q0) + 1.668/sqrt(q0)/log(q0))
+        constant = even_table[index]
     if parity == 'odd':
-        number = (0.5/pi + 0.8294/log(q0) + 1.0285/sqrt(q0)/log(q0))
-    return number*sqrt(q1)*log(q1)
+        constant = odd_table[index]
+
+    if 10**index <= q0 <= q1 <= 10**(index+1):
+        number = sqrt(N)*q1**(3/16)*sqrt(log(q1))
+
+    return constant*number
 
 def constants(alpha):
     """Calculate constants related to Euler-Maclaurin summation for n**-alpha
