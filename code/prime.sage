@@ -1,4 +1,4 @@
-print("Siegel zeroes for primitive real characters.")
+print("Siegel zeroes for primitive real characters of prime modulus.")
 
 even = 'even'
 odd = 'odd'
