@@ -6,7 +6,10 @@ odd = 'odd'
 var('t')
 
 def character_sum(q0, q1, parity):      # Lapkova 2018
-    """Calculate upper bound for sum of Dirichlet characters of modulus q0 <= q <= q1."""
+    """Calculate upper bound for sum of Dirichlet characters of modulus q0 <= q
+    <= q1. This should be multiplied by the square root of the length of the sum
+    .
+    """
 
     even_table = [1.83, 1.74, 1.68, 1.63, 1.59, 1.55, 1.52, 1.49, 1.47, 1.45,
                   1.43, 1.41, 1.39, 1.38, 1.12, 1.02]
@@ -21,7 +24,7 @@ def character_sum(q0, q1, parity):      # Lapkova 2018
         constant = odd_table[index]
 
     if 10**index <= q0 <= q1 <= 10**(index+1):
-        number = sqrt(N)*q1**(3/16)*sqrt(log(q1))
+        number = q1**(3/16)*sqrt(log(q1))
 
     return constant*number
 
