@@ -57,7 +57,7 @@ def error(q0, q1, A, tau, x, C1, C2, parity):
     z = min(z, x/2)
     z = floor(z)
     D1 = x**tau*log(x)/2/x     # lead term of W
-    D2 = A/tau**2              # lead term of upper_sum
+    D2 = sqrt(q)*log(q)/tau**2              # lead term of upper_sum
     A *= sqrt(x-z)
 
     alpha = 1 - tau
