@@ -52,6 +52,14 @@ def constants(alpha):
 def error(q0, q1, A, tau, x, C1, C2, parity):
     """Calculate F on the interval [q0, q1] for precomputed A, tau, C1, C2."""
 
+    # Spitting sum
+    z = sqrt(D2/D1)            # minimize D1*z + D2/z
+    z = min(z, x/2)
+    z = floor(z)
+    D1 = x**tau*log(x)/2/x     # lead term of W
+    D2 = A/tau**2              # lead term of upper_sum
+    A *= sqrt(x-z)
+
     alpha = 1 - tau
 
     def h6(d):
@@ -73,13 +81,6 @@ def error(q0, q1, A, tau, x, C1, C2, parity):
     K1 = abs(C1)
     K2 = abs(C2)
     K3 = abs(x^tau/tau*(1/tau - log(x)))
-
-    # Spitting sum
-    D1 = x**tau*log(x)/2/x     # lead term of W
-    D2 = A/tau**2              # lead term of upper_sum
-    z = sqrt(D2/D1)            # minimize D1*z + D2/z
-    z = min(z, x/2)
-    z = floor(z)
 
     L_error1, L_error2, L_error3 = +Infinity, +Infinity, +Infinity
 
