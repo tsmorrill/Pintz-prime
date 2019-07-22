@@ -23,10 +23,7 @@ def character_sum(q0, q1, parity):      # Lapkova 2018
     if parity == 'odd':
         constant = odd_table[index]
 
-    if 10**(index + 7) <= q0 <= q1 <= 10**(index + 8):
-        number = q1**(3/16)*sqrt(log(q1))
-
-    return constant*number
+    return constant*q1**(3/16)*sqrt(log(q1))
 
 def constants(alpha):
     """Calculate constants related to Euler-Maclaurin summation for n**-alpha
