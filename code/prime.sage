@@ -113,7 +113,7 @@ def error(q0, q1, A, tau, x, C1, C2, parity):
 
     # print(float(W1), float(W2), float(W3), float(upper_sum))
 
-    # print(three_six.n(), three_seven.n(), three_eight.n(), W.n(), upper_sum.n())
+    print(float(L_error1), float(L_error2), float(L_error3), float(W), float(upper_sum))
 
     if 4e5 <= q0 and q1 <= 1e7:
         Bennet = 79.2
