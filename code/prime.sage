@@ -50,12 +50,14 @@ def constants(alpha):
 def error(q0, q1, A, tau, x, C1, C2, parity):
     """Calculate F on the interval [q0, q1] for precomputed A, tau, C1, C2."""
 
-    upper_bound = 6*x**tau*log(x)*sqrt(A)/t**2/x
+    upper_bound = 6*x**tau*log(x)*sqrt(A)/tau**2/x
 
     if 4e5 <= q0 and q1 <= 1e7:
         Bennet = 79.2
     else:
         Bennet = 12.52    # Bordignon
+
+    z = x
 
     L1 = (1/tau - log(z))*Bennet*z^tau/tau/sqrt(q1)
     lower_bound = max(-2*zetaderiv(1, 2-2*tau)
@@ -63,7 +65,7 @@ def error(q0, q1, A, tau, x, C1, C2, parity):
                       log(4)/4)
     lower_bound_classic = log(4)/4
 
-    number = (upper_bound -  lower_bound_classic)
+    number = (upper_bound - lower_bound_classic)
     return number
 
 def F(c, q0, q1, x, parity):
