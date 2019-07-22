@@ -50,70 +50,7 @@ def constants(alpha):
 def error(q0, q1, A, tau, x, C1, C2, parity):
     """Calculate F on the interval [q0, q1] for precomputed A, tau, C1, C2."""
 
-    # Spitting sum
-    D1 = x**tau*log(x)/2/x     # lead term of W
-    D2 = sqrt(q1)*log(q1)/tau**2              # lead term of upper_sum
-    z = sqrt(D2/D1)            # minimize D1*z + D2/z
-    z = min(z, x/2)
-    z = floor(x)
-
-    alpha = 1 - tau
-
-    def h6(d):
-        return log(d)/d**(1-tau)
-    def h7(d):
-        return 1/d**(1-tau)
-    def h8(d):
-        return 1/d
-
-    # d/dx H[i](x) = h[i](x)
-
-    def H6(d):
-        return d**tau/tau*(log(d) - 1/tau)
-    def H7(d):
-        return d**tau/tau
-    def H8(d):
-        return log(d)
-
-    K1 = abs(C1)
-    K2 = abs(C2)
-    K3 = abs(x^tau/tau*(1/tau - log(x)))
-
-    L_error1, L_error2, L_error3 = +Infinity, +Infinity, +Infinity
-
-    if parity == 'even':        # Louboutin 2001
-        N0 = floor(sqrt(q0)) - 1
-        N1 = floor(sqrt(q1)) - 1
-        L_error1 = (H6(N1 + z) - H6(z) + N1*(N1 + 1)/2*h6(N0 + z + 2)
-                    - N0*(N0+3)/2*h6(N1 + z + 1)
-                    + sqrt(q1)/2*((N1 + 1)*h6(N0 + z + 1) - N0*h6(N1 + z + 2)))
-        L_error2 = (H7(N1 + z) - H7(z) + N1*(N1 + 1)/2*h7(N0 + z + 2)
-                    - N0*(N0+3)/2*h7(N1 + z + 1)
-                    + sqrt(q1)/2*((N1 + 1)*h7(N0 + z + 1) - N0*h7(N1 + z + 2)))
-        L_error3 = (H8(N1 + z) - H8(z) + N1*(N1 + 1)/2*h8(N0 + z + 2)
-                    - N0*(N0+3)/2*h8(N1 + z + 1)
-                    + sqrt(q1)/2*((N1 + 1)*h8(N0 + z + 1) - N0*h8(N1 + z + 2)))
-
-    L_error1 = min(L_error1, H6(A + z) - H6(z-1))
-    L_error2 = min(L_error1, H7(A + z) - H7(z-1))
-    L_error3 = min(L_error1, H8(A + z) - H8(z-1))
-
-    W = (x**tau*log(x)/2*z/x
-         + x**tau*(1 + alpha*log(x))/24*z/x*(z/x + 1/x)
-         + x**tau*(alpha*(alpha + 1)*log(x) + (3*alpha**2 + 6*alpha + 2)/(alpha + 2))
-         /216/sqrt(3)*z/x*(z/x + 1/x)*(2*z/x + 1/x))
-
-    # W1 = x**tau*log(x)/2*z/x
-    # W2 = x**tau*(1 + alpha*log(x))/24*z/x*(z/x + 1/x)
-    # W3 = (x**tau*(alpha*(alpha + 1)*log(x) + (3*alpha**2 + 6*alpha + 2)/(alpha + 2))
-    #       /216/sqrt(3)*z/x*(z/x + 1/x)*(2*z/x + 1/x))
-
-    upper_sum = A/z**(1-tau)*(log(z) + (x/z)**tau/tau*(log(x) - 1/tau)
-                              - (log(z) - 1/tau)/tau)
-
-    # print(float(W1), float(W2), float(W3), float(upper_sum))
-
-    print(float(L_error1), float(L_error2), float(L_error3), float(W), float(upper_sum))
+    upper_bound = 6*x**tau*log(x)*sqrt(A)/t**2/x
 
     if 4e5 <= q0 and q1 <= 1e7:
         Bennet = 79.2
@@ -124,9 +61,9 @@ def error(q0, q1, A, tau, x, C1, C2, parity):
     lower_bound = max(-2*zetaderiv(1, 2-2*tau)
                       -2*(1 + (0.5 - tau)*log(z))/z^(0.5 - tau)/(1 - 2*tau)^2,
                       log(4)/4)
+    lower_bound_classic = log(4)/4
 
-    number = (L_error1 + L_error2 + L_error3 + W + upper_sum
-              - L1 - lower_bound)
+    number = (upper_bound -  lower_bound_classic)
     return number
 
 def F(c, q0, q1, x, parity):
