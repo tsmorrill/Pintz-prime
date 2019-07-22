@@ -17,6 +17,7 @@ def character_sum(q0, q1, parity):      # Lapkova 2018
                  1.41, 1.39, 1.38, 1.36, 1.10, 1.00]
 
     index = int(log(q0, 10) - 7)
+    index = min(index, len(even_table)-1)
 
     if parity == 'even':
         constant = even_table[index]
@@ -54,8 +55,7 @@ def error(q0, q1, A, tau, x, C1, C2, parity):
     D2 = sqrt(q1)*log(q1)/tau**2              # lead term of upper_sum
     z = sqrt(D2/D1)            # minimize D1*z + D2/z
     z = min(z, x/2)
-    z = floor(z)
-    A *= sqrt(x-z)
+    z = floor(x)
 
     alpha = 1 - tau
 
