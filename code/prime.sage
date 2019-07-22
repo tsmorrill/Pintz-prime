@@ -150,7 +150,7 @@ def search(c, q0, q1, x0, x1, step, parity):
     A = character_sum(q0, q1, parity)
 
     x_min = max(x0, 2, log((exp(1/(2*tau - 1)) + 1)**2, 10))    # lower bound from Lemma 4; also need log(x) >0
-    x_max = min(x1, log(q0^(1/c), 10))    # upper bound from (10)
+    x_max = min(x1, log(q0, 10)/4)    # upper bound from (10)
     x_range = [x_min + i*step for i in range(floor((x_max-x_min)/step) + 1)]
     values = []
 
@@ -194,6 +194,9 @@ def best_c(q0, q1, significant_figures=2):
                     x_even, c_even = x, c
                     print("q in [{}, {}], c >= {}.".format(q0, q1, c_even))
                     c += c_step
+                    if c > 4:
+                        done = True
+                        print('ERROR: c > 4.')
                     break
                 else:
                     it_works = False
